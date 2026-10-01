@@ -15,17 +15,21 @@ public class GuestsService {
         this.repository = repository;
     }
 
-    public boolean cadastrarHospede(Guest guest) {
-        for (Guest h : repository.getHospedes()) {
-            if (Objects.equals(h.getCpf(), guest.getCpf())) {
+    public boolean guestsRegistration(Guest guest) {
+        for (Guest g : repository.getGuests()) {
+            if (Objects.equals(g.getCpf(), guest.getCpf())) {
                 return false;
             }
         }
-        repository.salvar(guest);
+        repository.save(guest);
         return true;
     }
 
-    public List<Guest> listaDeHospedes(){
-        return Collections.unmodifiableList(repository.getHospedes());
+    public Guest findByCpf(String cpf) {
+        return repository.findGuestsByCpf(cpf);
+    }
+
+    public List<Guest> guestsList(){
+        return Collections.unmodifiableList(repository.getGuests());
     }
 }

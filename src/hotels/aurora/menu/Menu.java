@@ -1,5 +1,6 @@
 package hotels.aurora.menu;
 
+import hotels.aurora.accommodation.service.AccommodationService;
 import hotels.aurora.room.Housekeeping;
 import hotels.aurora.room.Room;
 import hotels.aurora.room.RoomStatus;
@@ -13,57 +14,75 @@ import java.util.Scanner;
 public class Menu {
     private final GuestsService guestsService;
     private final RoomService roomService;
+    private final AccommodationService accommodationService;
     private final Scanner scanner = new Scanner(System.in);
 
-    public Menu(GuestsService guestsService, RoomService roomService) {
+    public Menu(GuestsService guestsService, RoomService roomService, AccommodationService accommodationService) {
         this.guestsService = guestsService;
         this.roomService = roomService;
+        this.accommodationService = accommodationService;
     }
 
-    public void menu() {
-        while (true) {
-            principaisOpcoes();
-            opcoesSecundariasComEntradaDeDados();
+    public void mainMenu() {
+        int iterator = 1;
+        while (iterator == 1) {
+            mainOptions();
+            int option = scanner.nextInt();
+            scanner.nextLine();
+            switch (option) {
+                case 1:
+                    registerGuest();
+                    System.out.println();
+                    break;
+                case 2:
+                    registerRoom();
+                    System.out.println();
+                    break;
+                case 3:
+                    guestsList();
+                    System.out.println();
+                    break;
+                case 4:
+                    roomsList();
+                    System.out.println();
+                    break;
+                case 5:
+                    checkIn();
+                    System.out.println();
+                    break;
+                case 6:
+                    checkOut();
+                    System.out.println();
+                    break;
+                case 7:
+                    iterator++;
+                    break;
+                default:
+                    System.out.println("Digite um número válido.");
+                    System.out.println();
+
+            }
         }
     }
 
-    private void principaisOpcoes() {
+    private void mainOptions() {
         int i = 1;
-        ArrayList<String> opcoes = new ArrayList<>();
-        System.out.println("Bem-vindo ao Aurora Hotels");
-        opcoes.add("Cadastrar hóspedes");
-        opcoes.add("Cadastrar quartos");
-        opcoes.add("Listar hóspedes");
-        opcoes.add("Listar quartos");
+        ArrayList<String> options = new ArrayList<>();
+        System.out.println("Bem-vindo ao Aurora Hotels! Você deseja: ");
+        options.add("Cadastrar hóspedes");
+        options.add("Cadastrar quartos");
+        options.add("Listar hóspedes");
+        options.add("Listar quartos");
+        options.add("Fazer check in");
+        options.add("Fazer check out");
         System.out.println("Escolha uma opção: ");
-        for (String opcao : opcoes) {
-            System.out.println(i + ". " + opcao);
+        for (String option : options) {
+            System.out.println(i + ". " + option);
             i++;
         }
     }
 
-    private void opcoesSecundariasComEntradaDeDados(){
-        int opcao = scanner.nextInt();
-        scanner.nextLine();
-        if (opcao == 1) {
-            opcao1();
-            System.out.println();
-        } else if (opcao == 2) {
-            opcao2();
-            System.out.println();
-        } else if (opcao == 3) {
-            opcao3();
-            System.out.println();
-        } else if (opcao == 4) {
-            opcao4();
-            System.out.println();
-        } else {
-            System.out.println("Digite um número válido.");
-            System.out.println();
-        }
-    }
-
-    private void opcao1() {
+    private void registerGuest() {
         System.out.print("Digite o nome do hóspede: ");
         String nome = scanner.nextLine();
         System.out.print("Digite o CPF do hóspede: ");
@@ -73,7 +92,7 @@ public class Menu {
         System.out.print("Digite o telefone do hóspede: ");
         long telefone = scanner.nextLong();
         Guest guest = new Guest(nome, cpf, endereco, telefone);
-        if (guestsService.cadastrarHospede(guest)) {
+        if (guestsService.guestsRegistration(guest)) {
             System.out.println("Hóspede cadastrado com sucesso!");
             System.out.println();
             return;
@@ -82,13 +101,13 @@ public class Menu {
         System.out.println();
     }
 
-    private void opcao2() {
+    private void registerRoom() {
         System.out.print("Digite o andar do quarto: ");
         int andar = scanner.nextInt();
         System.out.print("Digite o número do quarto: ");
         int numero = scanner.nextInt();
         Room room = new Room(andar, numero, RoomStatus.VAGO, Housekeeping.LIMPO);
-        if (roomService.cadastrarQuarto(room)) {
+        if (roomService.roomsRegistration(room)) {
             System.out.println("Quarto cadastrado com sucesso!");
             System.out.println();
             return;
@@ -97,18 +116,61 @@ public class Menu {
         System.out.println();
     }
 
-    private void opcao3() {
+    private void guestsList() {
         System.out.println("Lista de hóspedes: ");
-        for (Guest guest : guestsService.listaDeHospedes()) {
+        for (Guest guest : guestsService.guestsList()) {
             System.out.println(guest);
         }
     }
 
-    private void opcao4() {
+    private void roomsList() {
         System.out.println("Lista de quartos: ");
-        for (Room room : roomService.listaDeQuartos()) {
+        for (Room room : roomService.roomsList()) {
             System.out.println(room);
         }
+    }
+
+    private void checkIn() {
+        System.out.println("Digite o CPF do hóspede: ");
+        String cpf = scanner.nextLine();
+        Guest guest = guestsService.findByCpf(cpf);
+
+        if (guest == null) {
+            System.out.println("Hóspede não cadastrado. Favor registrá-lo primeiro: ");
+            registerGuest();
+            return;
+        }
+
+        System.out.println("Digite o número do quarto: ");
+        int roomNumber = scanner.nextInt();
+        Room room = roomService.findByNumber(roomNumber);
+        if (room == null) {
+            System.out.println("Quarto não cadastrado. Favor escolher outro. " +
+                    "Você pode acessar a lista de quartos disponíveis na lista de quartos.");
+            return;
+        }
+        if (accommodationService.checkIn(guest, room)) {
+            System.out.println("Check in efetuado com sucesso! Aproveite a estadia.");
+        } else {
+            throw new IllegalArgumentException("O check out não foi efetuado. Confira os dados e tente novamente.");
+        }
+    }
+
+    private void checkOut() {
+        System.out.println("Digite o CPF do hóspede: ");
+        String cpf = scanner.nextLine();
+        Guest guest = guestsService.findByCpf(cpf);
+        if (guest == null) {
+            System.out.println("Hóspede não está hospedado. Não é possível fazer check out.");
+            return;
+        }
+        if (accommodationService.checkOut(guest)) {
+            System.out.println("Check-out efetuado com sucesso! Agradecemos a preferência!");
+        } else {
+            throw new IllegalArgumentException("O check out não foi efetuado. Confira os dados e tente novamente.");
+        }
+
+
     }
 
 }

@@ -14,18 +14,22 @@ public class RoomService {
         this.repository = repository;
     }
 
-    public boolean cadastrarQuarto(Room room) {
-        for (Room q : repository.getQuartos()) {
+    public boolean roomsRegistration(Room room) {
+        for (Room q : repository.getRooms()) {
             if (q.getRoomNumber() == room.getRoomNumber()) {
                 return false;
             }
         }
-        repository.salvar(room);
+        repository.save(room);
         return true;
     }
 
-    public List<Room> listaDeQuartos(){
-        return Collections.unmodifiableList(repository.getQuartos());
+    public Room findByNumber(int roomNumber) {
+        return repository.findRoomByNumber(roomNumber);
+    }
+
+    public List<Room> roomsList(){
+        return Collections.unmodifiableList(repository.getRooms());
     }
 
 

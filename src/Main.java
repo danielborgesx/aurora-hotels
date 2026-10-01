@@ -1,3 +1,4 @@
+import hotels.aurora.accommodation.service.AccommodationService;
 import hotels.aurora.menu.Menu;
 import hotels.aurora.room.service.RoomService;
 import hotels.aurora.repository.Repository;
@@ -8,7 +9,9 @@ public class Main {
         Repository repository = new Repository();
         GuestsService guestsService = new GuestsService(repository);
         RoomService roomService = new RoomService(repository);
-        Menu menu = new Menu(guestsService, roomService);
-        menu.menu();
+        AccommodationService accommodationService = new AccommodationService(repository);
+        Menu menu = new Menu(guestsService, roomService, accommodationService);
+
+        menu.mainMenu();
     }
 }

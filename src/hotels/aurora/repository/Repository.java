@@ -14,50 +14,50 @@ public class Repository {
     private List<Guest> guests = new ArrayList<>();
     private List<Accommodation> accommodations = new ArrayList<>();
 
-    public void salvar(Room room) {
+    public void save(Room room) {
         rooms.add(room);
     }
 
-    public void salvar(Guest guest) {
+    public void save(Guest guest) {
         guests.add(guest);
     }
 
-    public void salvar(Accommodation accommodation) {
+    public void save(Accommodation accommodation) {
         accommodations.add(accommodation);
     }
 
-    public boolean pesquisarHospede(String cpf){
+    public Guest findGuestsByCpf(String cpf){
         for(Guest guest : guests){
             if(cpf.equals(guest.getCpf())){
-                return true;
+                return guest;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean pesquisarQuarto(int numeroQuarto){
+    public Room findRoomByNumber(int roomNumber){
         for(Room room : rooms){
-            if(numeroQuarto == room.getRoomNumber()){
-                return true;
+            if(room.getRoomNumber() == roomNumber){
+                return room;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean pesquisarHospedagem(LocalDate dataEntrada){
+    public boolean accommodationResearch(LocalDate checkInDate){
         for(Accommodation accommodation : accommodations){
-            if(accommodation.getCheckInDate().isEqual(dataEntrada)){
+            if(accommodation.getCheckInDate().isEqual(checkInDate)){
                 return true;
             }
         }
         return false;
     }
 
-    public List<Room> getQuartos() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public List<Guest> getHospedes() {
+    public List<Guest> getGuests() {
         return guests;
     }
 

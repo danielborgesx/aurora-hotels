@@ -13,6 +13,44 @@ public class Room {
         this.housekeeping = housekeeping;
     }
 
+    public String toString(){
+        return "Quarto: " + roomNumber +
+                "\nAndar: " + floor +
+                "\nStatus: " + status +
+                "\nGovernança: " + housekeeping;
+    }
+
+    public boolean isAvailable() {
+        return status == RoomStatus.VAGO && housekeeping == Housekeeping.LIMPO;
+    }
+
+    public void occupy() {
+        if (!isAvailable()) {
+            throw new IllegalStateException("Quarto indisponível");
+        }
+        status = RoomStatus.OCUPADO;
+        housekeeping = Housekeeping.SUJO;
+    }
+
+    public void clean() {
+        if (housekeeping == Housekeeping.LIMPO) {
+            throw new IllegalStateException("Quarto já está limpo");
+        }
+        housekeeping = Housekeeping.LIMPO;
+    }
+
+    public void release() {
+        status = RoomStatus.VAGO;
+        housekeeping = Housekeeping.SUJO;
+    }
+
+    public void dirty(){
+        if (housekeeping == Housekeeping.SUJO) {
+            throw new IllegalStateException("Quarto já está sujo");
+        }
+        housekeeping = Housekeeping.SUJO;
+    }
+
     public int getFloor() {
         return floor;
     }
@@ -27,20 +65,5 @@ public class Room {
 
     public Housekeeping getHousekeeping() {
         return housekeeping;
-    }
-
-    public String toString(){
-        return "Quarto: " + roomNumber +
-                "\nAndar: " + floor +
-                "\nStatus: " + status +
-                "\nGovernança: " + housekeeping;
-    }
-
-    public void setStatus(RoomStatus status) {
-        this.status = status;
-    }
-
-    public void setHousekeeping(Housekeeping housekeeping) {
-        this.housekeeping = housekeeping;
     }
 }
