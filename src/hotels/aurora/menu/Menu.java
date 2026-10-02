@@ -2,7 +2,7 @@ package hotels.aurora.menu;
 
 import hotels.aurora.accommodation.Accommodation;
 import hotels.aurora.accommodation.service.AccommodationService;
-import hotels.aurora.configurations.Cpf;
+import hotels.aurora.users.Cpf;
 import hotels.aurora.room.Housekeeping;
 import hotels.aurora.room.Room;
 import hotels.aurora.room.RoomStatus;
@@ -26,8 +26,8 @@ public class Menu {
     }
 
     public void mainMenu() {
-        int iterator = 1;
-        while (iterator == 1) {
+        boolean running = true;
+        while (running) {
             mainOptions();
             int option = scanner.nextInt();
             scanner.nextLine();
@@ -61,7 +61,7 @@ public class Menu {
                     System.out.println();
                     break;
                 case 8:
-                    iterator++;
+                    running = false;
                     break;
                 default:
                     System.out.println("Digite um número válido.");
@@ -82,6 +82,7 @@ public class Menu {
         options.add("Fazer check in");
         options.add("Fazer check out");
         options.add("Lista de hospedagens");
+        options.add("Sair");
         System.out.println("Escolha uma opção: ");
         for (String option : options) {
             System.out.println(i + ". " + option);
@@ -93,8 +94,14 @@ public class Menu {
         System.out.print("Digite o nome do hóspede: ");
         String nome = scanner.nextLine();
         System.out.print("Digite o CPF do hóspede: ");
-        String writenCpf = scanner.nextLine();
-        Cpf cpf = new Cpf(writenCpf);
+        String typedCpf = scanner.nextLine();
+        Cpf cpf;
+        try {
+            cpf = new Cpf(typedCpf);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         System.out.print("Digite o endereço do hóspede: ");
         String endereco = scanner.nextLine();
         System.out.print("Digite o telefone do hóspede: ");
@@ -140,8 +147,14 @@ public class Menu {
 
     private void checkIn() {
         System.out.println("Digite o CPF do hóspede: ");
-        String writenCpf = scanner.nextLine();
-        Cpf cpf = new Cpf(writenCpf);
+        String typedCpf = scanner.nextLine();
+        Cpf cpf;
+        try {
+           cpf = new Cpf(typedCpf);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         Guest guest = guestsService.findByCpf(cpf);
 
         if (guest == null) {
@@ -161,14 +174,20 @@ public class Menu {
         if (accommodationService.checkIn(guest, room)) {
             System.out.println("Check in efetuado com sucesso! Aproveite a estadia.");
         } else {
-            throw new IllegalArgumentException("O check out não foi efetuado. Confira os dados e tente novamente.");
+            System.out.println("O check in não foi efetuado. Confira os dados e tente novamente.");
         }
     }
 
     private void checkOut() {
         System.out.println("Digite o CPF do hóspede: ");
-        String writenCpf = scanner.nextLine();
-        Cpf cpf = new Cpf(writenCpf);
+        String typedCpf = scanner.nextLine();
+        Cpf cpf;
+        try {
+            cpf = new Cpf(typedCpf);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         Guest guest = guestsService.findByCpf(cpf);
         if (guest == null) {
             System.out.println("Hóspede não está hospedado. Não é possível fazer check out.");
@@ -176,8 +195,9 @@ public class Menu {
         }
         if (accommodationService.checkOut(guest)) {
             System.out.println("Check-out efetuado com sucesso! Agradecemos a preferência!");
+
         } else {
-            throw new IllegalArgumentException("O check out não foi efetuado. Confira os dados e tente novamente.");
+            System.out.println("O check out não foi efetuado. Confira os dados e tente novamente.");
         }
 
 
@@ -185,8 +205,8 @@ public class Menu {
 
     private void accommodationList(){
         System.out.println("Lista de hospedagens: ");
-        for(Accommodation accomodation : accommodationService.accommodationList()) {
-            System.out.println(accomodation);
+        for(Accommodation accommodation : accommodationService.accommodationList()) {
+            System.out.println(accommodation);
         }
     }
 

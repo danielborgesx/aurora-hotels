@@ -1,10 +1,14 @@
-package hotels.aurora.configurations;
+package hotels.aurora.users;
 
 public class Cpf {
     private final String value;
 
     public Cpf(String value) {
-        this.value = value;
+        String digits = value == null ? "" : value.replaceAll("\\D", "");
+        if (!isValid(digits)) {
+            throw new IllegalArgumentException("CPF inválido");
+        }
+        this.value = digits;
     }
 
     private static boolean isValid(String cpf) {

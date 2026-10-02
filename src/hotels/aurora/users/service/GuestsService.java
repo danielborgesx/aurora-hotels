@@ -1,6 +1,6 @@
 package hotels.aurora.users.service;
 
-import hotels.aurora.configurations.Cpf;
+import hotels.aurora.users.Cpf;
 import hotels.aurora.repository.Repository;
 import hotels.aurora.users.Guest;
 
@@ -27,7 +27,7 @@ public class GuestsService {
     }
 
     public Guest findByCpf(Cpf cpf) {
-        return repository.findGuestsByCpf(cpf);
+        return repository.findGuestByCpf(cpf);
     }
 
     public List<Guest> guestsList() {

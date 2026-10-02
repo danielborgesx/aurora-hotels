@@ -10,21 +10,18 @@ import java.util.List;
 public class RoomService {
 
     private final Repository repository;
-    private Room room;
+    private final HotelConfig hotelConfig;
 
     public RoomService(Repository repository, HotelConfig hotelConfig) {
         this.repository = repository;
-        if (!hotelConfig.accepts(room.getFloor(), room.getRoomNumber())) {
-            throw new IllegalArgumentException("Quarto fora dos limites do hotel");
-        }
+        this.hotelConfig = hotelConfig;
     }
 
     public boolean roomsRegistration(Room room) {
-        for (Room r : repository.getRooms()) {
-            if (r.getRoomNumber() == room.getRoomNumber()) {
-                return false;
-            }
-        }
+        // 1. andar válido?        -> config decide (exceção se inválido)
+        // 2. número já existe?    -> return false
+        // 3. andar já está cheio? -> conta os quartos daquele andar no repositório,
+        //                            config diz o máximo (exceção se cheio)
         repository.save(room);
         return true;
     }

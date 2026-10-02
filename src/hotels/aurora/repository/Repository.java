@@ -1,7 +1,7 @@
 package hotels.aurora.repository;
 
 import hotels.aurora.accommodation.Accommodation;
-import hotels.aurora.configurations.Cpf;
+import hotels.aurora.users.Cpf;
 import hotels.aurora.room.Room;
 import hotels.aurora.users.Guest;
 
@@ -27,7 +27,7 @@ public class Repository {
         accommodations.add(accommodation);
     }
 
-    public Guest findGuestsByCpf(Cpf cpf){
+    public Guest findGuestByCpf(Cpf cpf){
         for(Guest guest : guests){
             if(cpf.equals(guest.getCpf())){
                 return guest;
@@ -45,14 +45,6 @@ public class Repository {
         return null;
     }
 
-    public boolean findAccommodationByCheckInDate(LocalDate checkInDate){
-        for(Accommodation accommodation : accommodations){
-            if(accommodation.getCheckInDate().isEqual(checkInDate)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public List<Room> getRooms() {
         return rooms;

@@ -11,8 +11,18 @@ public class HotelConfig {
     }
 
     public boolean accepts(int floor, int roomNumber) {
-        return floor >= 0 && floor <= maxFloor
+        return floor >= 1 && floor <= maxFloor
                 && roomNumber > 0 && roomNumber <= roomsPerFloor;
     }
+    /*
+    -> Métodos implantados futuramente no projeto
 
+    public boolean acceptsFloor(int floor){
+
+    }
+
+    public boolean hasRoomLeftOnFloor(long registeredRooms) {
+
+    }
+    */
 }

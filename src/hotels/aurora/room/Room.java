@@ -31,7 +31,7 @@ public class Room {
         status = RoomStatus.OCUPADO;
         housekeeping = Housekeeping.SUJO;
     }
-
+    // Método utilizado futuramente no projeto pela classe Governança. Responsável pela limpeza dos quartos.
     public void clean() {
         if (housekeeping == Housekeeping.LIMPO) {
             throw new IllegalStateException("Quarto já está limpo");
@@ -43,7 +43,7 @@ public class Room {
         status = RoomStatus.VAGO;
         housekeeping = Housekeeping.SUJO;
     }
-
+    // Método utilizado futuramente no projeto pela classe Governança.
     public void dirty(){
         if (housekeeping == Housekeeping.SUJO) {
             throw new IllegalStateException("Quarto já está sujo");

@@ -1,7 +1,5 @@
 package hotels.aurora.users;
 
-import hotels.aurora.configurations.Cpf;
-
 public class Guest {
 
     private String name;
