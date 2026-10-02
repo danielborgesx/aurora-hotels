@@ -1,6 +1,8 @@
 package hotels.aurora.menu;
 
+import hotels.aurora.accommodation.Accommodation;
 import hotels.aurora.accommodation.service.AccommodationService;
+import hotels.aurora.configurations.Cpf;
 import hotels.aurora.room.Housekeeping;
 import hotels.aurora.room.Room;
 import hotels.aurora.room.RoomStatus;
@@ -55,6 +57,10 @@ public class Menu {
                     System.out.println();
                     break;
                 case 7:
+                    accommodationList();
+                    System.out.println();
+                    break;
+                case 8:
                     iterator++;
                     break;
                 default:
@@ -75,6 +81,7 @@ public class Menu {
         options.add("Listar quartos");
         options.add("Fazer check in");
         options.add("Fazer check out");
+        options.add("Lista de hospedagens");
         System.out.println("Escolha uma opção: ");
         for (String option : options) {
             System.out.println(i + ". " + option);
@@ -86,7 +93,8 @@ public class Menu {
         System.out.print("Digite o nome do hóspede: ");
         String nome = scanner.nextLine();
         System.out.print("Digite o CPF do hóspede: ");
-        String cpf = scanner.nextLine();
+        String writenCpf = scanner.nextLine();
+        Cpf cpf = new Cpf(writenCpf);
         System.out.print("Digite o endereço do hóspede: ");
         String endereco = scanner.nextLine();
         System.out.print("Digite o telefone do hóspede: ");
@@ -132,7 +140,8 @@ public class Menu {
 
     private void checkIn() {
         System.out.println("Digite o CPF do hóspede: ");
-        String cpf = scanner.nextLine();
+        String writenCpf = scanner.nextLine();
+        Cpf cpf = new Cpf(writenCpf);
         Guest guest = guestsService.findByCpf(cpf);
 
         if (guest == null) {
@@ -158,7 +167,8 @@ public class Menu {
 
     private void checkOut() {
         System.out.println("Digite o CPF do hóspede: ");
-        String cpf = scanner.nextLine();
+        String writenCpf = scanner.nextLine();
+        Cpf cpf = new Cpf(writenCpf);
         Guest guest = guestsService.findByCpf(cpf);
         if (guest == null) {
             System.out.println("Hóspede não está hospedado. Não é possível fazer check out.");
@@ -171,6 +181,13 @@ public class Menu {
         }
 
 
+    }
+
+    private void accommodationList(){
+        System.out.println("Lista de hospedagens: ");
+        for(Accommodation accomodation : accommodationService.accommodationList()) {
+            System.out.println(accomodation);
+        }
     }
 
 }

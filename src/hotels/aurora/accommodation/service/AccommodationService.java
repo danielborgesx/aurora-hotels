@@ -7,6 +7,8 @@ import hotels.aurora.users.Guest;
 
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 public class AccommodationService {
 
@@ -47,6 +49,10 @@ public class AccommodationService {
             }
         }
         return null;
+    }
+
+    public List<Accommodation> accommodationList(){
+        return Collections.unmodifiableList(repository.getAccommodations());
     }
 
 

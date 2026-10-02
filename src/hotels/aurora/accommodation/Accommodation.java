@@ -37,5 +37,12 @@ public class Accommodation {
     public Room getRoom() {
         return room;
     }
+
+    public String toString(){
+        return "Hóspede: " + guest.getName() +
+                "\nQuarto: " + room.getRoomNumber() +
+                "\nCheck-in: " + checkInDate +
+                "\nCheck-out: " + checkOutDate;
+    }
 }
 

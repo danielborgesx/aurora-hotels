@@ -1,13 +1,15 @@
 package hotels.aurora.users;
 
+import hotels.aurora.configurations.Cpf;
+
 public class Guest {
 
     private String name;
-    private String cpf;
+    private Cpf cpf;
     private String address;
     private long cellphone;
 
-    public Guest(String name, String cpf, String address, long cellphone) {
+    public Guest(String name, Cpf cpf, String address, long cellphone) {
         this.name = name;
         this.cpf = cpf;
         this.address = address;
@@ -18,7 +20,7 @@ public class Guest {
         return name;
     }
 
-    public String getCpf() {
+    public Cpf getCpf() {
         return cpf;
     }
 
