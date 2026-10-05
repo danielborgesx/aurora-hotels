@@ -3,11 +3,12 @@ package hotels.aurora.room.service;
 import hotels.aurora.configurations.HotelConfig;
 import hotels.aurora.room.Room;
 import hotels.aurora.repository.Repository;
+import hotels.aurora.room.service.Interface.IRoomService;
 
 import java.util.Collections;
 import java.util.List;
 
-public class RoomService {
+public class RoomService implements IRoomService {
 
     private final Repository repository;
     private final HotelConfig hotelConfig;
@@ -16,9 +17,8 @@ public class RoomService {
         this.repository = repository;
         this.hotelConfig = hotelConfig;
     }
-
     public boolean roomsRegistration(Room room) {
-        if (!hotelConfig.acceptsFloor(room.getFloor()) && !hotelConfig.hasRoomLeftOnFloor(room.getFloor())) {
+        if (!hotelConfig.acceptsFloor(room.getFloor()) || !hotelConfig.hasRoomLeftOnFloor(room.getFloor())) {
             throw new IllegalArgumentException("Invalid floor");
         }
 
@@ -39,6 +39,5 @@ public class RoomService {
     public List<Room> roomsList() {
         return Collections.unmodifiableList(repository.getRooms());
     }
-
 
 }

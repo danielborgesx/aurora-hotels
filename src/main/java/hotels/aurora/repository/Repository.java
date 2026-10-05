@@ -5,7 +5,6 @@ import hotels.aurora.users.Cpf;
 import hotels.aurora.room.Room;
 import hotels.aurora.users.Guest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

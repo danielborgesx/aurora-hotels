@@ -1,25 +1,25 @@
 package hotels.aurora.menu;
 
 import hotels.aurora.accommodation.Accommodation;
-import hotels.aurora.accommodation.service.AccommodationService;
+import hotels.aurora.accommodation.service.Interface.IAccommodationService;
 import hotels.aurora.users.Cpf;
 import hotels.aurora.room.Housekeeping;
 import hotels.aurora.room.Room;
 import hotels.aurora.room.RoomStatus;
-import hotels.aurora.room.service.RoomService;
+import hotels.aurora.room.service.Interface.IRoomService;
 import hotels.aurora.users.Guest;
-import hotels.aurora.users.service.GuestsService;
+import hotels.aurora.users.service.Interface.IGuestsService;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    private final GuestsService guestsService;
-    private final RoomService roomService;
-    private final AccommodationService accommodationService;
+    private final IGuestsService guestsService;
+    private final IRoomService roomService;
+    private final IAccommodationService accommodationService;
     private final Scanner scanner = new Scanner(System.in);
 
-    public Menu(GuestsService guestsService, RoomService roomService, AccommodationService accommodationService) {
+    public Menu(IGuestsService guestsService, IRoomService roomService, IAccommodationService accommodationService) {
         this.guestsService = guestsService;
         this.roomService = roomService;
         this.accommodationService = accommodationService;
@@ -99,7 +99,7 @@ public class Menu {
         System.out.print("Digite o endereço do hóspede: ");
         String endereco = scanner.nextLine();
         System.out.print("Digite o telefone do hóspede: ");
-        long telefone = scanner.nextLong();
+        String telefone = scanner.nextLine();
         Guest guest = new Guest(nome, cpf, endereco, telefone);
         if (guestsService.guestsRegistration(guest)) {
             System.out.println("Hóspede cadastrado com sucesso!");

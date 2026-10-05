@@ -3,12 +3,13 @@ package hotels.aurora.users.service;
 import hotels.aurora.users.Cpf;
 import hotels.aurora.repository.Repository;
 import hotels.aurora.users.Guest;
+import hotels.aurora.users.service.Interface.IGuestsService;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class GuestsService {
+public class GuestsService implements IGuestsService {
 
     private final Repository repository;
 

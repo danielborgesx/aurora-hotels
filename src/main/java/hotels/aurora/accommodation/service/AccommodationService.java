@@ -1,6 +1,7 @@
 package hotels.aurora.accommodation.service;
 
 import hotels.aurora.accommodation.Accommodation;
+import hotels.aurora.accommodation.service.Interface.IAccommodationService;
 import hotels.aurora.room.Room;
 import hotels.aurora.repository.Repository;
 import hotels.aurora.users.Guest;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-public class AccommodationService {
+public class AccommodationService implements IAccommodationService {
 
     private final Repository repository;
 

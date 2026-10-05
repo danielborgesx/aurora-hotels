@@ -1,3 +1,5 @@
+package hotels.aurora;
+
 import hotels.aurora.accommodation.service.AccommodationService;
 import hotels.aurora.configurations.HotelConfig;
 import hotels.aurora.menu.Menu;

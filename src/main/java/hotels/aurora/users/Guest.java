@@ -1,13 +1,8 @@
 package hotels.aurora.users;
 
-public class Guest {
+public class Guest extends Person {
 
-    private String name;
-    private Cpf cpf;
-    private String address;
-    private long cellphone;
-
-    public Guest(String name, Cpf cpf, String address, long cellphone) {
+   public Guest(String name, Cpf cpf, String address, String cellphone) {
         this.name = name;
         this.cpf = cpf;
         this.address = address;
