@@ -95,13 +95,7 @@ public class Menu {
         String nome = scanner.nextLine();
         System.out.print("Digite o CPF do hóspede: ");
         String typedCpf = scanner.nextLine();
-        Cpf cpf;
-        try {
-            cpf = new Cpf(typedCpf);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
+        Cpf cpf = cpfVerify(typedCpf);
         System.out.print("Digite o endereço do hóspede: ");
         String endereco = scanner.nextLine();
         System.out.print("Digite o telefone do hóspede: ");
@@ -121,7 +115,7 @@ public class Menu {
         int andar = scanner.nextInt();
         System.out.print("Digite o número do quarto: ");
         int numero = scanner.nextInt();
-        Room room = new Room(andar, numero, RoomStatus.VAGO, Housekeeping.LIMPO);
+        Room room =  new Room(andar, numero, RoomStatus.VAGO, Housekeeping.LIMPO);
         if (roomService.roomsRegistration(room)) {
             System.out.println("Quarto cadastrado com sucesso!");
             System.out.println();
@@ -148,15 +142,8 @@ public class Menu {
     private void checkIn() {
         System.out.println("Digite o CPF do hóspede: ");
         String typedCpf = scanner.nextLine();
-        Cpf cpf;
-        try {
-           cpf = new Cpf(typedCpf);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
+        Cpf cpf = cpfVerify(typedCpf);
         Guest guest = guestsService.findByCpf(cpf);
-
         if (guest == null) {
             System.out.println("Hóspede não cadastrado. Favor registrá-lo primeiro: ");
             registerGuest();
@@ -181,13 +168,7 @@ public class Menu {
     private void checkOut() {
         System.out.println("Digite o CPF do hóspede: ");
         String typedCpf = scanner.nextLine();
-        Cpf cpf;
-        try {
-            cpf = new Cpf(typedCpf);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
+        Cpf cpf = cpfVerify(typedCpf);
         Guest guest = guestsService.findByCpf(cpf);
         if (guest == null) {
             System.out.println("Hóspede não está hospedado. Não é possível fazer check out.");
@@ -203,10 +184,19 @@ public class Menu {
 
     }
 
-    private void accommodationList(){
+    private void accommodationList() {
         System.out.println("Lista de hospedagens: ");
-        for(Accommodation accommodation : accommodationService.accommodationList()) {
+        for (Accommodation accommodation : accommodationService.accommodationList()) {
             System.out.println(accommodation);
+        }
+    }
+
+    public Cpf cpfVerify(String typedCpf) {
+        Cpf cpf;
+        try {
+            return new Cpf(typedCpf);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
     }
 

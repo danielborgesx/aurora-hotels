@@ -18,10 +18,16 @@ public class RoomService {
     }
 
     public boolean roomsRegistration(Room room) {
-        // 1. andar válido?        -> config decide (exceção se inválido)
-        // 2. número já existe?    -> return false
-        // 3. andar já está cheio? -> conta os quartos daquele andar no repositório,
-        //                            config diz o máximo (exceção se cheio)
+        if (!hotelConfig.acceptsFloor(room.getFloor()) && !hotelConfig.hasRoomLeftOnFloor(room.getFloor())) {
+            throw new IllegalArgumentException("Invalid floor");
+        }
+
+        for (Room r : repository.getRooms()) {
+            if (r.getRoomNumber() == room.getRoomNumber()) {
+                return false;
+            }
+        }
+
         repository.save(room);
         return true;
     }
@@ -30,7 +36,7 @@ public class RoomService {
         return repository.findRoomByNumber(roomNumber);
     }
 
-    public List<Room> roomsList(){
+    public List<Room> roomsList() {
         return Collections.unmodifiableList(repository.getRooms());
     }
 
